@@ -20,7 +20,9 @@ This command will switch to the virtual environment
 	pip freeze > requirements.txt
 
 b. Build and run the container
-	
+	1. Create docker file for backend flask application as in under app/Dockerfile
+	2. Create docker file for postgres database as in under database/Dockerfile. The init.sql file under database/ will insert the initial data into the tables.
+	3. Use 'docker-compose up --build' to build and run the containers.	
 
 
 c. Run the test suite that tests all the APIs
@@ -32,3 +34,7 @@ d. Run the flask backend
 	2. Run "flask run"
 		OR
 	   "python3 app.py"
+
+Additional information:
+to insert the initial data, run the following command 
+psql -h localhost -d isi -w -f "init.sql"

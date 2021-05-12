@@ -23,6 +23,8 @@ COPY . .
 
 EXPOSE 5000
 
-#CMD ["python3", "test_isi.py"]
+CMD ["python3", "test_isi.py"]
 
-ENTRYPOINT sh docker-entrypoint.sh test 
+#ENTRYPOINT ["sh", "docker-entrypoint.sh"] 
+
+

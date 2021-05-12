@@ -8,29 +8,24 @@ Date: May 7th, 2021
 """
 
 from app import db, Serializer
+from sqlalchemy.ext.declarative import declarative_base
+
 db.Model.metadata.reflect(db.engine)
 
 class Products(db.Model, Serializer):
     """ Represents the products table """
-    __tablename__ = 'products'
-    id = db.Column('id',db.Integer, primary_key=True)
-    #__table__ = db.Model.metadata.tables['products']
+    __table__ = db.Model.metadata.tables['products']
 
 
 class Users(db.Model, Serializer):
     """ Represents the user table"""
-    __tablename__ = 'users'
-    #__table__ = db.Model.metadata.tables['users']
-    id = db.Column('id',db.Integer, primary_key=True)
-	#__table__ = db.Model.metadata.tables['users']
+    __table__ = db.Model.metadata.tables['users']
 
 
 class Reviews(db.Model, Serializer):
     """ Represents the Reviews table"""
-    __tablename__ = 'reviews'
-    id = db.Column('id',db.Integer, primary_key=True)
 
-#__table__ = db.Model.metadata.tables['reviews']
+    __table__ = db.Model.metadata.tables['reviews']
 
     """ Construction defined as Insertion happens via ORM """
 
