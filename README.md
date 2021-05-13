@@ -5,36 +5,55 @@ Tech Stack: Flask, PostgreSQL, SQLAlchemy, Docker
 
 a. Setting up the codebase from scratch within a virtual environment
 
-Execute the following steps in bash shell (via termial):
+	Execute the following steps in bash shell (via termial):
 
-1. Install virtualenv module if not already installed:
-	sudo pip3 install virtualenv
-2. Create a virtualenv using the command:virtualenv isi
-	virtualenv <env_name>
-3. Activate the virtual environment
-	source <env_name>/bin/activate
-This command will switch to the virtual environment
-4. Install the required packages (in the venv)
-	pip install flask psycopg2-binary Flask-SQLAlchemy
-5. Gather the requirements to be used later create docker containers.
-	pip freeze > requirements.txt
+	1. Install virtualenv module if not already installed:
+		sudo pip3 install virtualenv
+	2. Create a virtualenv using the command:virtualenv isi
+		virtualenv <env_name>
+	3. Activate the virtual environment
+		source <env_name>/bin/activate
+	This command will switch to the virtual environment
+	4. Install the required packages (in the venv)
+		pip install flask psycopg2-binary Flask-SQLAlchemy
+	5. Gather the requirements to be used later create docker containers.
+		pip freeze > requirements.txt
 
 b. Build and run the container
-	1. Create docker file for backend flask application as in under app/Dockerfile
-	2. Create docker file for postgres database as in under database/Dockerfile. The init.sql file under database/ will insert the initial data into the tables.
-	3. Use 'docker-compose up --build' to build and run the containers.	
+	Create network so that flask app and database can communicate:
+		docker create network isi
+	
+	a. Build the database container:
+		docker pull postgres
+		docker run -d -p 5432:5432 -v $(pwd)/database:/data -e POSTGRES_PASSWORD=password --net isi --name database postgres
+		docker exec -it postgres bash
+
+	Once the container is running and you see the bash terminal, execute the following to create the tables and seed the data
+
+		psql -U postgres -a -f /data/init.sql
+
+		Example: 
+		root@8254335c8597:/# psql -U postgres -a -f /data/init.sql
+		root@8254335c8597:/# \c isi;
+		Verify tables are created:
+		root@8254335c8597:/# \dt
+		Verify data is seeded:
+		root@8254335c8597:/# select * from users;
+		root@8254335c8597:/# select * from products;
+		root@8254335c8597:/# exit
 
 
-c. Run the test suite that tests all the APIs
-	1. Navigate to app/
-	2. Run "python3 test_productreviews.py"
+	b. Building and running the flask app
+		1. Navigate to app/
+		2. Run the command: docker build -t isi_test .
+		3. docker run  -p 5000:5000 --net isi -it isi_test deploy
+		(deploy option will start the flask server)
+
+
+
+c. Run the test suite that tests all the APIs:
+	Run the command: docker run  -p 5000:5000 --net isi -it isi_test test
 
 d. Run the flask backend
-	1. Navigate to app/
-	2. Run "flask run"
-		OR
-	   "python3 app.py"
+	Run the command: docker run  -p 5000:5000 --net isi -it isi_test deploy
 
-Additional information:
-to insert the initial data, run the following command 
-psql -h localhost -d isi -w -f "init.sql"

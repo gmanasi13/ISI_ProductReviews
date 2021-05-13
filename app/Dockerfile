@@ -1,5 +1,5 @@
 # pull official base image
-FROM python:3.8.0-slim-buster
+FROM python:3.8.3-slim-buster
 
 # set work directory
 WORKDIR /usr/src/app
@@ -14,7 +14,10 @@ ENV FLASK_RUN_HOST=127.0.0.1
 
 COPY ./requirements.txt requirements.txt
 #RUN export LDFLAGS="-L/usr/local/opt/openssl/lib"
+RUN apt-get update \
+    && apt-get -y install libpq-dev gcc
 
+RUN pip install --upgrade pip
 RUN pip install -r requirements.txt 
 
 # copy project
@@ -23,8 +26,8 @@ COPY . .
 
 EXPOSE 5000
 
-CMD ["python3", "test_isi.py"]
+#CMD ["python3", "test_isi.py"]
 
-#ENTRYPOINT ["sh", "docker-entrypoint.sh"] 
+ENTRYPOINT ["sh", "docker-entrypoint.sh"] 
 
 

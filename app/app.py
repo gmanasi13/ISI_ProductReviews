@@ -16,30 +16,21 @@ Date: May 7th, 2021
 
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
-
-
-class Serializer(object):
-    """ This class serializes the output of the GET request so that it can work with jsonify"""
-
-    def serialize(self):
-        return {c: getattr(self, c) for c in inspect(self).attrs.keys()}
-
-    @staticmethod
-    def serialize_list(l):
-        return [m.serialize() for m in l]
+from sqlalchemy.inspection import inspect
 
 
 # Setup the app
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://postgres:secret@db:5432/isi'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://postgres:password@database:5432/isi'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://postgres@localhost:5432/isi'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['DEBUG'] = False
 db = SQLAlchemy(app)
 db.Model.metadata.reflect(db.engine)
 
 # models are imported here since models.py had a dependency on the Serializer class defined above
-from models import Products, Reviews, Users
-
+#from models import Products, Reviews, Users
+from models import *
 
 # GEt method /user/{user_id}
 @app.route('/user/<user_id>', methods=['GET'])

@@ -7,7 +7,7 @@ create table if not exists products ( id int not null primary key, Name varchar 
 create table if not exists users (id int not null primary key, Name varchar not null);
 
 
-create table if not exists reviews (id int not null primary key, User_id int not null, Product_id int not null, Review varchar not null, Rating varchar not null, foreign key (User_id) references Users(id), foreign key (Product_id) references Products(id));
+create table if not exists reviews (id serial primary key, User_id int not null, Product_id int not null, Review varchar not null, Rating varchar not null, foreign key (User_id) references Users(id), foreign key (Product_id) references Products(id));
 
 alter table reviews add constraint uq_reviews unique(user_id,product_id);
 

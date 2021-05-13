@@ -7,8 +7,19 @@ Author: Manasi Godse
 Date: May 7th, 2021
 """
 
-from app import db, Serializer
+from app import db
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.inspection import inspect
+
+class Serializer(object):
+    """ This class serializes the output of the GET request so that it can work with jsonify"""
+
+    def serialize(self):
+        return {c: getattr(self, c) for c in inspect(self).attrs.keys()}
+
+    @staticmethod
+    def serialize_list(l):
+        return [m.serialize() for m in l]
 
 db.Model.metadata.reflect(db.engine)
 

@@ -32,7 +32,7 @@ class ISITestCase(unittest.TestCase):
 
     def setUp(self):
         self.app = app.test_client()
-        app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://postgres:secret@db:5432/'
+        app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://postgres:password@database:5432/isi'
         app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
         app.config['DEBUG'] = False
         db = SQLAlchemy(app)
