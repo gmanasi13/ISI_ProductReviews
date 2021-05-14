@@ -20,9 +20,10 @@ a. Setting up the codebase from scratch within a virtual environment
 		pip freeze > requirements.txt
 
 b. Build and run the container
-	Initial: Create network so that flask app and database can communicate:
+		
+	 Create network so that flask app and database can communicate:
 		docker network create isi
-			
+		
 	a. Build the database container:
 		docker pull postgres
 		docker run -d -p 5432:5432 -v $(pwd)/database:/data -e POSTGRES_PASSWORD=password --net isi --name database postgres
