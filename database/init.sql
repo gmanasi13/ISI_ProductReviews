@@ -1,3 +1,4 @@
+CREATE DATABASE isi;
 GRANT ALL PRIVILEGES ON DATABASE isi TO postgres;
 
 \c isi;
