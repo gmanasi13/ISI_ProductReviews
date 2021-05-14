@@ -35,13 +35,13 @@ b. Build and run the container
 
 		Example: 
 		root@8254335c8597:/# psql -U postgres -a -f /data/init.sql
-		root@8254335c8597:/# \c isi;
+		root@8254335c8597:/# psql -U postgres -d isi		
 		Verify tables are created:
-		root@8254335c8597:/# \dt
+		isi=# \dt
 		Verify data is seeded:
-		root@8254335c8597:/# select * from users;
-		root@8254335c8597:/# select * from products;
-		root@8254335c8597:/# exit
+		isi=# select * from users;
+		isi=# select * from products;
+		isi=# exit
 
 
 	b. Building and running the flask app
