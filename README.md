@@ -49,6 +49,7 @@ b. Build and run the container
 		2. Run the command: docker build -t isi_test .
 		3. docker run  -p 5000:5000 --net isi -it isi_test deploy
 		(deploy option will start the flask server)
+		Navigate to the browser and type: http://127.0.0.1/user/3 
 
 
 
