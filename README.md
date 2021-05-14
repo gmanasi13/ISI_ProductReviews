@@ -54,8 +54,10 @@ b. Build and run the container
 
 
 c. Run the test suite that tests all the APIs:
+	
 	Run the command: docker run  -p 5000:5000 --net isi -it isi_test test
 
 d. Run the flask backend
+
 	Run the command: docker run  -p 5000:5000 --net isi -it isi_test deploy
 
